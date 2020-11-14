@@ -1,13 +1,12 @@
 /**
- * GET ELEMENT BY ID
- * Alias for document.getElementById.
+ * Get element by ID
  */
-function byId(id) {
-    return document.getElementById(id);
+const elementById = (id) => {
+    return document.querySelector(id);
 }
 
 /**
- * HTML ELEMENTS
+ * HTML elements
  */
 let divAjax;
 let divAjaxResponse;
@@ -16,12 +15,9 @@ let frmMain;
 let btRequest;
 
 /**
- * VALIDATE INPUTS
- * This function checks to see if all form inputs are valid.
- * This is used for the button disabled and submit logic.
- * @returns Whether or not the form is valid
+ * Check if all inputs are valid
  */
-function validateInputs() {
+const validateInputs = () => {
     const validTypes = [
         'letter-stamped',
         'letter-metered',
@@ -46,18 +42,17 @@ function validateInputs() {
 }
 
 /**
- * ON OUTPUT SELECTOR CHANGE
- * This function is triggered when the "Output Type" dropdown value is changed.
- * It determines whether or not to hide and clear the AJAX/AJAX Reponse divs.
+ * Select Changed Event Function
  */
-function onOutputSelectorChange() {
+const selectOuputChange = () => {
     divAjaxResponse.innerHTML = '';
-
-    if (selOutput.value === 'ajax') {
-        divAjax.style.display = '';
-    } else {
-        divAjax.style.display = 'none';
-    }
+    selOutput.addEventListener('input', () => {
+        if (selOutput.value === 'ajax') {
+            divAjax.style.display = '';
+        } else {
+            divAjax.style.display = 'none';
+        }
+    });
 }
 
 /**
@@ -66,14 +61,14 @@ function onOutputSelectorChange() {
  * trigger calls.
  */
 function onWindowLoad() {
-    divAjax = byId('div-ajax');
-    divAjaxResponse = byId('div-ajax-response');
-    selOutput = byId('sel-output');
-    frmMain = byId('frm-main');
-    btRequest = byId('bt-request');
+    divAjax = elementById('#div-ajax');
+    divAjaxResponse = elementById('#div-ajax-response');
+    selOutput = elementById('#sel-output');
+    frmMain = elementById('#frm-main');
+    btRequest = elementById('#bt-request');
 
     // call triggers once to initialize
-    onOutputSelectorChange();
+    selectOuputChange();
     onFormChange();
 }
 

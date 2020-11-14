@@ -133,7 +133,7 @@ function rateLetterStamped(weight) {
 /**
  *Get rate for letters (metered)
  */
-function rateLetterMetered(weight) {
+const rateLetterMetered = (weight) => {
     if (weight <= 1.0) {
         return 0.50;
     } else if (weight <= 2.0) {
@@ -150,7 +150,7 @@ function rateLetterMetered(weight) {
 /**
  *  Get rate for large envelopes (Flates)
  */
-function rateLargeFlat(weight) {
+const rateLargeFlat = (weight) => {
     if (weight <= 1.0) {
         return 1.00;
     } else if (weight <= 2.0) {
@@ -185,7 +185,7 @@ function rateLargeFlat(weight) {
 /**
  * Get rates for first class package service - retail
  */
-function rateFirstClassRetail(weight) {
+const rateFirstClassRetai = (weight) => {
     if (weight <= 4.0) {
         return 3.80;
     } else if (weight <= 8.0) {
@@ -202,7 +202,7 @@ function rateFirstClassRetail(weight) {
 /**
  * Calculate Rate
  */
-function calculateRate(weight, type) {
+const calculateRate = (weight, type) => {
     if (!(type in mapRateType)) {
         throw `Unknown type "${type}"`;
     } else if (isNaN(weight) || weight <= 0) {
@@ -218,7 +218,7 @@ function calculateRate(weight, type) {
 /**
  * Send responds to views
  */
-function respond(res, obj) {
+const respond = (res, obj) => {
     res.status(obj.status);
     for (let key in obj.headers) {
         res.set(key, obj.headers[key]);
