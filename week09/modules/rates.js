@@ -116,7 +116,7 @@ const mapNameType = {
 /**
  * Get rate for letters (stamped)
  */
-function rateLetterStamped(weight) {
+const rateLetterStamped = (weight) => {
     if (weight <= 1.0) {
         return 0.55;
     } else if (weight <= 2.0) {
@@ -128,7 +128,7 @@ function rateLetterStamped(weight) {
     } else {
         return rateLargeFlat(weight);
     }
-}
+};
 
 /**
  *Get rate for letters (metered)
@@ -145,7 +145,7 @@ const rateLetterMetered = (weight) => {
     } else {
         return rateLargeFlat(weight);
     }
-}
+};
 
 /**
  *  Get rate for large envelopes (Flates)
@@ -180,7 +180,7 @@ const rateLargeFlat = (weight) => {
     } else {
         throw `Invalid weight "${weight}"`;
     }
-}
+};
 
 /**
  * Get rates for first class package service - retail
@@ -197,7 +197,7 @@ const rateFirstClassRetai = (weight) => {
     } else {
         throw `Invalid weight "${weight}"`;
     }
-}
+};
 
 /**
  * Calculate Rate
@@ -213,7 +213,7 @@ const calculateRate = (weight, type) => {
     let rate = getRate(weight);
     let NameType = mapNameType[type];
     return [rate, rate * weight, NameType];
-}
+};
 
 /**
  * Send responds to views
@@ -224,4 +224,4 @@ const respond = (res, obj) => {
         res.set(key, obj.headers[key]);
     }
     res.send(obj.message);
-}
+};
