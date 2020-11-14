@@ -1,12 +1,13 @@
 /**
- * Get element by ID
+ * GET ELEMENT BY ID
+ * Alias for document.getElementById.
  */
-const elementById = (id) => {
-    return document.querySelector(id);
+function byId(id) {
+    return document.getElementById(id);
 }
 
 /**
- * HTML elements
+ * HTML ELEMENTS
  */
 let divAjax;
 let divAjaxResponse;
@@ -15,9 +16,12 @@ let frmMain;
 let btRequest;
 
 /**
- * Check if all inputs are valid
+ * VALIDATE INPUTS
+ * This function checks to see if all form inputs are valid.
+ * This is used for the button disabled and submit logic.
+ * @returns Whether or not the form is valid
  */
-const validateInputs = () => {
+function validateInputs() {
     const validTypes = [
         'letter-stamped',
         'letter-metered',
@@ -42,9 +46,11 @@ const validateInputs = () => {
 }
 
 /**
- * Select Changed Event
+ * ON OUTPUT SELECTOR CHANGE
+ * This function is triggered when the "Output Type" dropdown value is changed.
+ * It determines whether or not to hide and clear the AJAX/AJAX Reponse divs.
  */
-const onOutputSelectorChange = () => {
+function onOutputSelectorChange() {
     divAjaxResponse.innerHTML = '';
 
     if (selOutput.value === 'ajax') {
@@ -60,11 +66,11 @@ const onOutputSelectorChange = () => {
  * trigger calls.
  */
 function onWindowLoad() {
-    divAjax = elementById('#div-ajax');
-    divAjaxResponse = elementById('#div-ajax-response');
-    selOutput = elementById('#sel-output');
-    frmMain = elementById('#frm-main');
-    btRequest = elementById('#bt-request');
+    divAjax = byId('div-ajax');
+    divAjaxResponse = byId('div-ajax-response');
+    selOutput = byId('sel-output');
+    frmMain = byId('frm-main');
+    btRequest = byId('bt-request');
 
     // call triggers once to initialize
     onOutputSelectorChange();
