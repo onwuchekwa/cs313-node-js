@@ -116,7 +116,7 @@ const mapNameType = {
 /**
  * Get rate for letters (stamped)
  */
-const rateLetterStamped = (weight) => {
+function rateLetterStamped(weight) {
     if (weight <= 1.0) {
         return 0.55;
     } else if (weight <= 2.0) {
@@ -128,12 +128,12 @@ const rateLetterStamped = (weight) => {
     } else {
         return rateLargeFlat(weight);
     }
-};
+}
 
 /**
  *Get rate for letters (metered)
  */
-const rateLetterMetered = (weight) => {
+function rateLetterMetered(weight) {
     if (weight <= 1.0) {
         return 0.50;
     } else if (weight <= 2.0) {
@@ -145,12 +145,12 @@ const rateLetterMetered = (weight) => {
     } else {
         return rateLargeFlat(weight);
     }
-};
+}
 
 /**
  *  Get rate for large envelopes (Flates)
  */
-const rateLargeFlat = (weight) => {
+function rateLargeFlat(weight) {
     if (weight <= 1.0) {
         return 1.00;
     } else if (weight <= 2.0) {
@@ -180,12 +180,12 @@ const rateLargeFlat = (weight) => {
     } else {
         throw `Invalid weight "${weight}"`;
     }
-};
+}
 
 /**
  * Get rates for first class package service - retail
  */
-const rateFirstClassRetai = (weight) => {
+function rateFirstClassRetai(weight) {
     if (weight <= 4.0) {
         return 3.80;
     } else if (weight <= 8.0) {
@@ -197,12 +197,12 @@ const rateFirstClassRetai = (weight) => {
     } else {
         throw `Invalid weight "${weight}"`;
     }
-};
+}
 
 /**
  * Calculate Rate
  */
-const calculateRate = (weight, type) => {
+function calculateRate(weight, type) {
     if (!(type in mapRateType)) {
         throw `Unknown type "${type}"`;
     } else if (isNaN(weight) || weight <= 0) {
@@ -213,15 +213,15 @@ const calculateRate = (weight, type) => {
     let rate = getRate(weight);
     let NameType = mapNameType[type];
     return [rate, rate * weight, NameType];
-};
+}
 
 /**
  * Send responds to views
  */
-const respond = (res, obj) => {
+function respond (res, obj){
     res.status(obj.status);
     for (let key in obj.headers) {
         res.set(key, obj.headers[key]);
     }
     res.send(obj.message);
-};
+}
