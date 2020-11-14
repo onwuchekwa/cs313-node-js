@@ -2,9 +2,9 @@ const express = require('express')
 const path = require('path')
 const PORT = process.env.PORT || 5000
 
+const rates = require('./modules/rates');
 const PUBLIC_DIR = path.join(__dirname, 'public')
 const VIEWS_DIR = path.join(__dirname, 'views');
-//const rates = require('./module/rates');
 
 express()
   .use(express.static(PUBLIC_DIR))

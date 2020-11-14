@@ -1,16 +1,22 @@
 module.exports = {
     getRate: (req, res) => {
-        if(!('weight' in req.query && 'type' in req.query)) {
-            return respond(res, { 
-                status: 400, 
-                headers: { 'Content-Type' : 'text/html' },
-                message: 'Bad request: weight and type parameters are missing'
+        if (!('weight' in req.query && 'type' in req.query)) {
+            return respond(res, {
+                status: 400,
+                headers: {
+                    'Content-Type': 'text/html',
+                },
+                message: 'Bad request: missing weight and/or type parameter(s)',
             });
         }
 
         let outputType = 'text/html';
-        if('output' in req.query) {
-            switch(req.query.output) {
+        if ('output' in req.query) {
+            switch (req.query.output) {
+                case 'json':
+                    outputType = 'application/json';
+                break;
+                
                 case 'html':
                 case 'ajax':
                 case '':
@@ -19,65 +25,62 @@ module.exports = {
                     outputType = 'text/html';
                 break;
 
-                case 'json':
-                    outputType = 'application/json';
-                break;
-
+                // "output" must be valid or omitted
                 default:
-                    return respond(res,{
+                    return respond(res, {
                         status: 400,
                         headers: {
                             'Content-Type': 'text/html',
                         },
-                        message: `Invalid output type "${req.query.output}"`
+                        message: `Invalid output type "${req.query.output}"`,
                     });
-                break;
             }
         }
 
         let weight = Number(req.query.weight);
         let type = req.query.type;
 
+        // get the rate and calculate the price
         let price;
         let rate;
-        let type_name;
-
+        let typeName;
         try {
-            [rate, price, type_name] = calculateRate(weight, type);
-        } catch(ex) {
+            [rate, price, typeName] = calculateData(weight, type);
+        } catch (err) {
+            // if an invalid weight was given, then indicate such
             return respond(res, {
                 status: 400,
                 headers: {
                     'Content-Type': 'text/html',
                 },
-                message: ex
+                message: err,
             });
         }
 
         res.set('Content-Type', outputType);
-
-        switch(outputType) {
+        switch (outputType) {
+            // render the EJS page
             case 'text/html':
                 res.render('pages/price.ejs', {
                     weight: weight.toFixed(2),
-                    type_name: type_name,
+                    typeName: typeName,
                     rate: rate.toFixed(2),
                     price: price.toFixed(2),
                 });
-            break;
+                break;
             
             // send a JSON object
             case 'application/json':
                 res.send(JSON.stringify({
                     weight: weight.toFixed(2),
                     type: type,
-                    type_name: type_name,
+                    typeName: typeName,
                     rate: rate.toFixed(2),
                     price: price.toFixed(2),
                 }));
-            break;
+                break;
         }
-    }
+    },
 };
 
 const mapTypeRate = {
