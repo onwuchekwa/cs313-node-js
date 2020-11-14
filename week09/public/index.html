@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <title>Week 09 | Postage</title>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <h1>Postage Rate Calculator</h1>
+        <form id="frm-main" action="/getRate" method="GET" oninput="onFormChange()">
+            <table>
+                <tbody>
+                    <tr>
+                        <td><label for="type">Package Type</label></td>
+                        <td>
+                            <select name="type" selected="letter-stamped" required class="u-fill">
+                                <option value="letter-stamped">Letter (Stamped)</option>
+                                <option value="letter-metered">Letter (Metered)</option>
+                                <option value="large-flat">Large Envelope (Flat)</option>
+                                <option value="first-class-retail">First-Class Package Service—Retail</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="weight">Weight (oz)</label></td>
+                        <td><input type="number" name="weight" min="0.01" max="13.00" step="0.01" required class="u-fill" /></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <span class="u-note">Note: The weight must be between 0.01 oz and 13.00 oz.</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="output">Output Type</label></td>
+                        <td>
+                            <select name="output" id="sel-output" oninput="onOutputSelectorChange()" selected="html" required class="u-fill">
+                                <option value="html">Separate HTML page</option>
+                                <option value="json">JSON Object</option>
+                                <option value="ajax">AJAX Request</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <button type="button" id="bt-request" onclick="onRequestClick()">Calculate</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div id="div-ajax">
+                <label>AJAX Reponse:</label><hr />
+                <div id="div-ajax-response"></div>
+            </div>
+        </form>
+
+        <script type="application/javascript" src="index.js"></script>
+        <script type="application/javascript" src="ajax.js"></script>
+    </body>
+</html>
