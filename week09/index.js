@@ -4,7 +4,7 @@ const PORT = process.env.PORT || 5000
 
 const PUBLIC_DIR = path.join(__dirname, 'public')
 const VIEWS_DIR = path.join(__dirname, 'views');
-const rates = require('./module/rates');
+//const rates = require('./module/rates');
 
 express()
   .use(express.static(PUBLIC_DIR))
