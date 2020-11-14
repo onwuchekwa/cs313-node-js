@@ -42,17 +42,16 @@ const validateInputs = () => {
 }
 
 /**
- * Select Changed Event Function
+ * Select Changed Event
  */
-const selectOuputChange = () => {
+const onOutputSelectorChange = () => {
     divAjaxResponse.innerHTML = '';
-    selOutput.addEventListener('input', () => {
-        if (selOutput.value === 'ajax') {
-            divAjax.style.display = '';
-        } else {
-            divAjax.style.display = 'none';
-        }
-    });
+
+    if (selOutput.value === 'ajax') {
+        divAjax.style.display = '';
+    } else {
+        divAjax.style.display = 'none';
+    }
 }
 
 /**
@@ -68,7 +67,7 @@ function onWindowLoad() {
     btRequest = elementById('#bt-request');
 
     // call triggers once to initialize
-    selectOuputChange();
+    onOutputSelectorChange();
     onFormChange();
 }
 
