@@ -126,13 +126,13 @@ const typeNameMap = {
  */
 function rateLetterStamped(weight) {
     if (weight <= 1.0) {
-        return 0.50;
+        return 0.555;
     } else if (weight <= 2.0) {
-        return 0.71;
+        return 0.70;
     } else if (weight <= 3.0) {
-        return 0.92;
+        return 0.85;
     } else if (weight <= 3.5) {
-        return 1.13;
+        return 1.00;
     } else {
         return rateLargeFlat(weight);
     }
@@ -148,13 +148,13 @@ function rateLetterStamped(weight) {
  */
 function rateLetterMetered(weight) {
     if (weight <= 1.0) {
-        return 0.47;
+        return 0.50;
     } else if (weight <= 2.0) {
-        return 0.68;
+        return 0.65;
     } else if (weight <= 3.0) {
-        return 0.89;
+        return 0.80;
     } else if (weight <= 3.5) {
-        return 1.10;
+        return 0.95;
     } else {
         return rateLargeFlat(weight);
     }
@@ -170,29 +170,29 @@ function rateLargeFlat(weight) {
     if (weight <= 1.0) {
         return 1.00;
     } else if (weight <= 2.0) {
-        return 1.21;
+        return 1.20;
     } else if (weight <= 3.0) {
-        return 1.42;
+        return 1.40;
     } else if (weight <= 4.0) {
-        return 1.63;
+        return 1.60;
     } else if (weight <= 5.0) {
-        return 1.84;
+        return 1.80;
     } else if (weight <= 6.0) {
-        return 2.05;
+        return 2.00;
     } else if (weight <= 7.0) {
-        return 2.26;
+        return 2.20;
     } else if (weight <= 8.0) {
-        return 2.47;
+        return 2.40;
     } else if (weight <= 9.0) {
-        return 2.68;
+        return 2.60;
     } else if (weight <= 10.0) {
-        return 2.89;
+        return 2.80;
     } else if (weight <= 11.0) {
-        return 3.10;
+        return 3.00;
     } else if (weight <= 12.0) {
-        return 3.31;
+        return 3.20;
     } else if (weight <= 13.0) {
-        return 3.52;
+        return 3.40;
     } else {
         throw `Invalid weight "${weight}"`;
     }
@@ -206,19 +206,11 @@ function rateLargeFlat(weight) {
  */
 function rateFirstClassRetail(weight) {
     if (weight <= 4.0) {
-        return 3.50;
+        return 3.80;
     } else if (weight <= 8.0) {
-        return 3.75;
-    } else if (weight <= 9.0) {
-        return 4.10;
-    } else if (weight <= 10.0) {
-        return 4.45;
-    } else if (weight <= 11.0) {
-        return 4.80;
+        return 4.60;
     } else if (weight <= 12.0) {
-        return 5.15;
-    } else if (weight <= 13.0) {
-        return 5.50;
+        return 5.30;
     } else {
         throw `Invalid weight "${weight}"`;
     }
