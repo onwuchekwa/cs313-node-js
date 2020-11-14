@@ -34,13 +34,13 @@ function validateInputs() {
         'ajax',
     ];
 
-    let type = frmMain.elements['type'].value;
-    let weight = frmMain.elements['weight'].value;
+    let postType = frmMain.elements['postType'].value;
+    let letterWeight = frmMain.elements['letterWeight'].value;
     let output = frmMain.elements['output'].value;
 
-    let validType = validTypes.indexOf(type) >= 0;
+    let validType = validTypes.indexOf(postType) >= 0;
     let validOutput = validOutputs.indexOf(output) >= 0;
-    let validWeight = (!isNaN(weight) && (weight >= 0.01 && weight <= 13.00));
+    let validWeight = (!isNaN(letterWeight) && (letterWeight >= 0.01 && letterWeight <= 13.00));
 
     return validType && validWeight && validOutput;
 }
