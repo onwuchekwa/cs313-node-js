@@ -1,7 +1,5 @@
 /**
- * GET ELEMENT BY ID
- * Alias for document.getElementelementById.
- */
+ * Get elements by ID
 function elementById(id) {
     return document.querySelector(id);
 }
@@ -16,10 +14,7 @@ let frmMain;
 let btnSubmit;
 
 /**
- * VALIDATE INPUTS
- * This function checks to see if all form inputs are valid.
- * This is used for the button disabled and submit logic.
- * @returns Whether or not the form is valid
+ * Validate all input fields
  */
 function validateInputs() {
     const validTypes = [
@@ -46,9 +41,7 @@ function validateInputs() {
 }
 
 /**
- * ON OUTPUT SELECTOR CHANGE
- * This function is triggered when the "Output Type" dropdown value is changed.
- * It determines whether or not to hide and clear the AJAX/AJAX Reponse divs.
+ * Hide or Show divs based on selected item
  */
 function selectStateChangedEvent() {
     divAjaxResponse.innerHTML = '';
@@ -62,8 +55,7 @@ function selectStateChangedEvent() {
 }
 
 /**
- * ON WINDOW LOAD
- * This function initializes the local elem variables and performs initial
+ * Initialize the local element variables and performs initial
  * trigger calls.
  */
 function onWindowLoad() {
@@ -80,9 +72,7 @@ function onWindowLoad() {
 }
 
 /**
- * ON FORM CHANGE
- * This function is triggered by the form's inputs changing.
- * It determines whether or not the "Calculate" button is disabled.
+ * Enable or disable calculate button
  */
 function formChangedEvent() {
     frmMain.addEventListener('input', () => {
@@ -91,11 +81,8 @@ function formChangedEvent() {
 }
 
 /**
- * ON REQUEST CLICK
- * This function is triggered by the "Calculate" button clicking.
- * If the form is valid, then this function either performs a basic HTTP form submission
+ * This function either performs a basic HTTP form submission
  * or an AJAX request.
- * If doing an AJAX request, then this function updates the "AJAX Response" div.
  */
 const getCalculatedRate = () => {
     btnSubmit.addEventListener('click', () => {
@@ -105,7 +92,7 @@ const getCalculatedRate = () => {
                 if (validateInputs()) {
                     frmMain.submit();
                 }
-                break;
+            break;
             
             case 'ajax':
                 if (validateInputs()) {
@@ -123,7 +110,7 @@ const getCalculatedRate = () => {
                         console.log(err);
                     });
                 }
-                break;
+            break;
         }
     });
 }
