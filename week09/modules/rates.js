@@ -1,17 +1,17 @@
 // Modularized getRate
 module.exports = {
     getRate: (req, res) => {
-        if (!('weight' in req.query && 'type' in req.query)) {
+        if (!('letterWeight' in req.query && 'postType' in req.query)) {
             return respond(res, {
                 status: 400,
                 headers: {
                     'Content-Type': 'text/html',
                 },
-                message: 'Bad request: missing weight and/or type parameter(s)',
+                message: 'Bad request: missing letterWeight and/or postType parameter(s)',
             });
         }
 
-        // check for and set output type
+        // check for and set output postType
         let outputType = 'text/html';
         if ('output' in req.query) {
             switch (req.query.output) {
@@ -33,24 +33,24 @@ module.exports = {
                         headers: {
                             'Content-Type': 'text/html',
                         },
-                        message: `Invalid output type "${req.query.output}"`,
+                        message: `Invalid output postType "${req.query.output}"`,
                     });
                 break;
             }
         }
 
         // get values from the URL query
-        let weight = Number(req.query.weight);
-        let type = req.query.type;
+        let letterWeight = Number(req.query.letterWeight);
+        let postType = req.query.postType;
 
         // get the rate and calculate the price
         let price;
         let rate;
         let nameType;
         try {
-            [rate, price, nameType] = calculateRate(weight, type);
+            [rate, price, nameType] = calculateRate(letterWeight, postType);
         } catch (err) {
-            // if an invalid weight was given, then indicate such
+            // if an invalid letterWeight was given, then indicate such
             return respond(res, {
                 status: 400,
                 headers: {
@@ -65,7 +65,7 @@ module.exports = {
             // render the EJS page
             case 'text/html':
                 res.render('pages/price.ejs', {
-                    weight: weight.toFixed(2),
+                    letterWeight: letterWeight.toFixed(2),
                     nameType: nameType,
                     rate: rate.toFixed(2),
                     price: price.toFixed(2),
@@ -75,8 +75,8 @@ module.exports = {
             // send a JSON object
             case 'application/json':
                 res.send(JSON.stringify({
-                    weight: weight.toFixed(2),
-                    type: type,
+                    letterWeight: letterWeight.toFixed(2),
+                    postType: postType,
                     nameType: nameType,
                     rate: rate.toFixed(2),
                     price: price.toFixed(2),
@@ -88,7 +88,7 @@ module.exports = {
 
 /**
  * TYPE RATE MAP
- * A map to match the package type to the rate calculation function.
+ * A map to match the package postType to the rate calculation function.
  */
 const typeRateMap = {
     'letter-stamped': rateLetterStamped,
@@ -99,7 +99,7 @@ const typeRateMap = {
 
 /**
  * TYPE NAME MAP
- * A map to match the package type with a more human-readable type name.
+ * A map to match the package postType with a more human-readable postType name.
  */
 const nameTypeMap = {
     'letter-stamped': 'Letter (Stamped)',
@@ -111,124 +111,124 @@ const nameTypeMap = {
 /**
  * RATE : LETTER (STAMPED)
  * This calculates the rate of a stamped letter or deferes the calculation to
- * the "First Class Mail" calculator if the weight is over 3.5 oz.
- * @param weight The weight of the letter
+ * the "First Class Mail" calculator if the letterWeight is over 3.5 oz.
+ * @param letterWeight The letterWeight of the letter
  * @returns      The applied rate
- * @throws       An error if the weight is too much
+ * @throws       An error if the letterWeight is too much
  */
-function rateLetterStamped(weight) {
-    if (weight <= 1.0) {
+function rateLetterStamped(letterWeight) {
+    if (letterWeight <= 1.0) {
         return 0.55;
-    } else if (weight <= 2.0) {
+    } else if (letterWeight <= 2.0) {
         return 0.70;
-    } else if (weight <= 3.0) {
+    } else if (letterWeight <= 3.0) {
         return 0.85;
-    } else if (weight <= 3.5) {
+    } else if (letterWeight <= 3.5) {
         return 1.00;
     } else {
-        return rateLargeFlat(weight);
+        return rateLargeFlat(letterWeight);
     }
 }
 
 /**
  * RATE : LETTER (METERED)
  * This calculates the rate of a metered letter or deferes the calculation to
- * the "First Class Mail" calculator if the weight is over 3.5 oz.
- * @param weight The weight of the letter
+ * the "First Class Mail" calculator if the letterWeight is over 3.5 oz.
+ * @param letterWeight The letterWeight of the letter
  * @returns      The applied rate
- * @throws       An error if the weight is too much
+ * @throws       An error if the letterWeight is too much
  */
-function rateLetterMetered(weight) {
-    if (weight <= 1.0) {
+function rateLetterMetered(letterWeight) {
+    if (letterWeight <= 1.0) {
         return 0.50;
-    } else if (weight <= 2.0) {
+    } else if (letterWeight <= 2.0) {
         return 0.65;
-    } else if (weight <= 3.0) {
+    } else if (letterWeight <= 3.0) {
         return 0.80;
-    } else if (weight <= 3.5) {
+    } else if (letterWeight <= 3.5) {
         return 0.95;
     } else {
-        return rateLargeFlat(weight);
+        return rateLargeFlat(letterWeight);
     }
 }
 
 /**
  * RATE : LARGE ENVELOPE (FLAT)
- * @param weight The weight of the envelope
+ * @param letterWeight The letterWeight of the envelope
  * @returns      The applied rate
- * @throws       An error if the weight is greater than 13.0 oz
+ * @throws       An error if the letterWeight is greater than 13.0 oz
  */
-function rateLargeFlat(weight) {
-    if (weight <= 1.0) {
+function rateLargeFlat(letterWeight) {
+    if (letterWeight <= 1.0) {
         return 1.00;
-    } else if (weight <= 2.0) {
+    } else if (letterWeight <= 2.0) {
         return 1.20;
-    } else if (weight <= 3.0) {
+    } else if (letterWeight <= 3.0) {
         return 1.40;
-    } else if (weight <= 4.0) {
+    } else if (letterWeight <= 4.0) {
         return 1.60;
-    } else if (weight <= 5.0) {
+    } else if (letterWeight <= 5.0) {
         return 1.80;
-    } else if (weight <= 6.0) {
+    } else if (letterWeight <= 6.0) {
         return 2.00;
-    } else if (weight <= 7.0) {
+    } else if (letterWeight <= 7.0) {
         return 2.20;
-    } else if (weight <= 8.0) {
+    } else if (letterWeight <= 8.0) {
         return 2.40;
-    } else if (weight <= 9.0) {
+    } else if (letterWeight <= 9.0) {
         return 2.60;
-    } else if (weight <= 10.0) {
+    } else if (letterWeight <= 10.0) {
         return 2.80;
-    } else if (weight <= 11.0) {
+    } else if (letterWeight <= 11.0) {
         return 3.00;
-    } else if (weight <= 12.0) {
+    } else if (letterWeight <= 12.0) {
         return 3.20;
-    } else if (weight <= 13.0) {
+    } else if (letterWeight <= 13.0) {
         return 3.40;
     } else {
-        throw `Invalid weight "${weight}"`;
+        throw `Invalid letterWeight "${letterWeight}"`;
     }
 }
 
 /**
  * RATE : FIRST-CLASS MAIL (RETAIL)
- * @param weight The weight of the package
+ * @param letterWeight The letterWeight of the package
  * @returns      The applied rate
- * @throws       An error if the weight is greater than 13.0 oz
+ * @throws       An error if the letterWeight is greater than 13.0 oz
  */
-function rateFirstClassRetail(weight) {
-    if (weight <= 4.0) {
+function rateFirstClassRetail(letterWeight) {
+    if (letterWeight <= 4.0) {
         return 3.80;
-    } else if (weight <= 8.0) {
+    } else if (letterWeight <= 8.0) {
         return 4.60;
-    } else if (weight <= 12.0) {
+    } else if (letterWeight <= 12.0) {
         return 5.30;
     } else {
-        throw `Invalid weight "${weight}"`;
+        throw `Invalid letterWeight "${letterWeight}"`;
     }
 }
 
 /**
  * CALCULATE DATA
- * This calculates and returns the rate, price and human-readable type name.
- * @param weight The package/letter weight
- * @param type   The package/letter type
+ * This calculates and returns the rate, price and human-readable postType name.
+ * @param letterWeight The package/letter letterWeight
+ * @param postType   The package/letter postType
  * @returns      A data array
- * @throws       An error message if the weight or type is invalid
+ * @throws       An error message if the letterWeight or postType is invalid
  * 
- * The returned data array includes the rate, price and type name (in that order).
+ * The returned data array includes the rate, price and postType name (in that order).
  */
-function calculateRate(weight, type) {
-    if (!(type in typeRateMap)) {
-        throw `Unknown type "${type}"`;
-    } else if (isNaN(weight) || weight <= 0) {
-        throw `Invalid weight "${weight}"`;
+function calculateRate(letterWeight, postType) {
+    if (!(postType in typeRateMap)) {
+        throw `Unknown postType "${postType}"`;
+    } else if (isNaN(letterWeight) || letterWeight <= 0) {
+        throw `Invalid letterWeight "${letterWeight}"`;
     }
 
-    let getRate = typeRateMap[type];
-    let rate = getRate(weight);
-    let nameType = nameTypeMap[type];
-    return [rate, rate * weight, nameType];
+    let getRate = typeRateMap[postType];
+    let rate = getRate(letterWeight);
+    let nameType = nameTypeMap[postType];
+    return [rate, rate * letterWeight, nameType];
 }
 
 /**
