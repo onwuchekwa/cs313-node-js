@@ -183,6 +183,8 @@ function firstClassicRetailRate(letterWeight) {
         return 4.60;
     } else if (letterWeight <= 12.0) {
         return 5.30;
+    } else if (letterWeight <= 13.0) {
+        return 5.90;
     } else {
         throw `Invalid letterWeight "${letterWeight}"`;
     }
