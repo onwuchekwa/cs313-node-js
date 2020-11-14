@@ -7,7 +7,7 @@
     </head>
     <body>
         <h1>Postage Rate Calculator</h1>
-        <form id="frm-main" action="/getRate" method="GET" oninput="onFormChange()">
+        <form id="mainForm" action="/getRate" method="GET">
             <table>
                 <tbody>
                     <tr>
@@ -42,7 +42,7 @@
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <button type="button" id="bt-request" onclick="onRequestClick()">Calculate</button>
+                            <button type="button" id="btnSubmit" onclick="onRequestClick()">Calculate</button>
                         </td>
                     </tr>
                 </tbody>

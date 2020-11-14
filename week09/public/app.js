@@ -1,9 +1,9 @@
 /**
  * GET ELEMENT BY ID
- * Alias for document.getElementById.
+ * Alias for document.getElementelementById.
  */
-function byId(id) {
-    return document.getElementById(id);
+function elementById(id) {
+    return document.querySelector(id);
 }
 
 /**
@@ -13,7 +13,7 @@ let divAjax;
 let divAjaxResponse;
 let selOutput;
 let frmMain;
-let btRequest;
+let btnSubmit;
 
 /**
  * VALIDATE INPUTS
@@ -50,7 +50,7 @@ function validateInputs() {
  * This function is triggered when the "Output Type" dropdown value is changed.
  * It determines whether or not to hide and clear the AJAX/AJAX Reponse divs.
  */
-function onOutputSelectorChange() {
+function selectStateChangedEvent() {
     divAjaxResponse.innerHTML = '';
     selOutput.addEventListener('input', () => {
         if (selOutput.value === 'ajax') {
@@ -58,12 +58,7 @@ function onOutputSelectorChange() {
         } else {
             divAjax.style.display = 'none';
         }
-    });/*
-    if (selOutput.value === 'ajax') {
-        divAjax.style.display = '';
-    } else {
-        divAjax.style.display = 'none';
-    }*/
+    });
 }
 
 /**
@@ -72,15 +67,15 @@ function onOutputSelectorChange() {
  * trigger calls.
  */
 function onWindowLoad() {
-    divAjax = byId('div-ajax');
-    divAjaxResponse = byId('div-ajax-response');
-    selOutput = byId('sel-output');
-    frmMain = byId('frm-main');
-    btRequest = byId('bt-request');
+    divAjax = elementById('#div-ajax');
+    divAjaxResponse = elementById('#div-ajax-response');
+    selOutput = elementById('#sel-output');
+    frmMain = elementById('#mainForm');
+    btnSubmit = elementById('#btnSubmit');
 
     // call triggers once to initialize
-    onOutputSelectorChange();
-    onFormChange();
+    selectStateChangedEvent();
+    formChangedEvent();
 }
 
 /**
@@ -88,8 +83,10 @@ function onWindowLoad() {
  * This function is triggered by the form's inputs changing.
  * It determines whether or not the "Calculate" button is disabled.
  */
-function onFormChange() {
-    btRequest.disabled = !validateInputs();
+function formChangedEvent() {
+    frmMain.addEventListener('input', () => {
+        btnSubmit.disabled = !validateInputs();
+    });
 }
 
 /**
@@ -99,7 +96,7 @@ function onFormChange() {
  * or an AJAX request.
  * If doing an AJAX request, then this function updates the "AJAX Response" div.
  */
-function onRequestClick() {
+ btnSubmit.addEventListener('click', () => {
     switch (selOutput.value) {
         case 'html':
         case 'json':
@@ -126,7 +123,7 @@ function onRequestClick() {
             }
             break;
     }
-}
+});
 
 // register the window load
 window.addEventListener('load', onWindowLoad);
