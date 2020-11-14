@@ -1,14 +1,6 @@
+// Modularized getRate
 module.exports = {
-    /**
-     * GET RATE
-     * This is the function portion of the "/getRate" endpoint.
-     * If an input is invalid, then a simple reponse is sent back with the matching
-     * error code.
-     * @param req The Express HTTP request object (populated)
-     * @param res The Express HTTP response object (to be populated)
-     */
     getRate: (req, res) => {
-        // enforce needed paramters
         if (!('weight' in req.query && 'type' in req.query)) {
             return respond(res, {
                 status: 400,
@@ -25,7 +17,7 @@ module.exports = {
             switch (req.query.output) {
                 case 'json':
                     outputType = 'application/json';
-                    break;
+                break;
                 
                 case 'html':
                 case 'ajax':
@@ -33,9 +25,8 @@ module.exports = {
                 case null:
                 case undefined:
                     outputType = 'text/html';
-                    break;
+                break;
 
-                // "output" must be valid or omitted
                 default:
                     return respond(res, {
                         status: 400,
@@ -44,6 +35,7 @@ module.exports = {
                         },
                         message: `Invalid output type "${req.query.output}"`,
                     });
+                break;
             }
         }
 
@@ -54,9 +46,9 @@ module.exports = {
         // get the rate and calculate the price
         let price;
         let rate;
-        let typeName;
+        let nameType;
         try {
-            [rate, price, typeName] = calculateData(weight, type);
+            [rate, price, nameType] = calculateRate(weight, type);
         } catch (err) {
             // if an invalid weight was given, then indicate such
             return respond(res, {
@@ -74,7 +66,7 @@ module.exports = {
             case 'text/html':
                 res.render('pages/price.ejs', {
                     weight: weight.toFixed(2),
-                    typeName: typeName,
+                    nameType: nameType,
                     rate: rate.toFixed(2),
                     price: price.toFixed(2),
                 });
@@ -85,7 +77,7 @@ module.exports = {
                 res.send(JSON.stringify({
                     weight: weight.toFixed(2),
                     type: type,
-                    typeName: typeName,
+                    nameType: nameType,
                     rate: rate.toFixed(2),
                     price: price.toFixed(2),
                 }));
@@ -109,7 +101,7 @@ const typeRateMap = {
  * TYPE NAME MAP
  * A map to match the package type with a more human-readable type name.
  */
-const typeNameMap = {
+const nameTypeMap = {
     'letter-stamped': 'Letter (Stamped)',
     'letter-metered': 'Letter (Metered)',
     'large-flat': 'Large Envelope (Flat)',
@@ -226,7 +218,7 @@ function rateFirstClassRetail(weight) {
  * 
  * The returned data array includes the rate, price and type name (in that order).
  */
-function calculateData(weight, type) {
+function calculateRate(weight, type) {
     if (!(type in typeRateMap)) {
         throw `Unknown type "${type}"`;
     } else if (isNaN(weight) || weight <= 0) {
@@ -235,8 +227,8 @@ function calculateData(weight, type) {
 
     let getRate = typeRateMap[type];
     let rate = getRate(weight);
-    let typeName = typeNameMap[type];
-    return [rate, rate * weight, typeName];
+    let nameType = nameTypeMap[type];
+    return [rate, rate * weight, nameType];
 }
 
 /**
