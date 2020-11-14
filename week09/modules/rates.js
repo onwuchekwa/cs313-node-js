@@ -126,7 +126,7 @@ const typeNameMap = {
  */
 function rateLetterStamped(weight) {
     if (weight <= 1.0) {
-        return 0.555;
+        return 0.55;
     } else if (weight <= 2.0) {
         return 0.70;
     } else if (weight <= 3.0) {

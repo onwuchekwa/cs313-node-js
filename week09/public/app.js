@@ -52,12 +52,18 @@ function validateInputs() {
  */
 function onOutputSelectorChange() {
     divAjaxResponse.innerHTML = '';
-
+    selOutput.addEventListener('input', () => {
+        if (selOutput.value === 'ajax') {
+            divAjax.style.display = '';
+        } else {
+            divAjax.style.display = 'none';
+        }
+    });/*
     if (selOutput.value === 'ajax') {
         divAjax.style.display = '';
     } else {
         divAjax.style.display = 'none';
-    }
+    }*/
 }
 
 /**
