@@ -124,7 +124,7 @@ const typeNameMap = {
  * @returns      The applied rate
  * @throws       An error if the weight is too much
  */
-function rateLetterStamped(weight) {
+const rateLetterStamped = (weight) => {
     if (weight <= 1.0) {
         return 0.555;
     } else if (weight <= 2.0) {
@@ -136,7 +136,7 @@ function rateLetterStamped(weight) {
     } else {
         return rateLargeFlat(weight);
     }
-}
+};
 
 /**
  * RATE : LETTER (METERED)
