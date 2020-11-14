@@ -85,8 +85,7 @@ module.exports = {
 };
 
 /**
- * TYPE RATE MAP
- * A map to match the package postType to the rate calculation function.
+ * Map the letter type rate to match the one used in the functions
  */
 const mapTypeRate = {
     'letter-stamped': letterStampedRate,
@@ -96,8 +95,7 @@ const mapTypeRate = {
 };
 
 /**
- * TYPE NAME MAP
- * A map to match the package postType with a more human-readable postType name.
+ * Map the letter type to display a human readable value
  */
 const mapTypeName = {
     'letter-stamped': 'Letter (Stamped)',
@@ -107,12 +105,7 @@ const mapTypeName = {
 };
 
 /**
- * RATE : LETTER (STAMPED)
- * This calculates the rate of a stamped letter or deferes the calculation to
- * the "First Class Mail" calculator if the letterWeight is over 3.5 oz.
- * @param letterWeight The letterWeight of the letter
- * @returns      The applied rate
- * @throws       An error if the letterWeight is too much
+ * This function  returns the rate per stamped letter weight
  */
 function letterStampedRate(letterWeight) {
     if (letterWeight <= 1.0) {
@@ -129,12 +122,7 @@ function letterStampedRate(letterWeight) {
 }
 
 /**
- * RATE : LETTER (METERED)
- * This calculates the rate of a metered letter or deferes the calculation to
- * the "First Class Mail" calculator if the letterWeight is over 3.5 oz.
- * @param letterWeight The letterWeight of the letter
- * @returns      The applied rate
- * @throws       An error if the letterWeight is too much
+ * This function  returns the rate per metered letter weight
  */
 function letterMeteredRate(letterWeight) {
     if (letterWeight <= 1.0) {
@@ -151,10 +139,7 @@ function letterMeteredRate(letterWeight) {
 }
 
 /**
- * RATE : LARGE ENVELOPE (FLAT)
- * @param letterWeight The letterWeight of the envelope
- * @returns      The applied rate
- * @throws       An error if the letterWeight is greater than 13.0 oz
+ * This function  returns the rate per large format weight
  */
 function largeFormatRate(letterWeight) {
     if (letterWeight <= 1.0) {
@@ -189,10 +174,7 @@ function largeFormatRate(letterWeight) {
 }
 
 /**
- * RATE : FIRST-CLASS MAIL (RETAIL)
- * @param letterWeight The letterWeight of the package
- * @returns      The applied rate
- * @throws       An error if the letterWeight is greater than 13.0 oz
+ * This function returns the rate per each first classic retail weight
  */
 function firstClassicRetailRate(letterWeight) {
     if (letterWeight <= 4.0) {
@@ -207,14 +189,7 @@ function firstClassicRetailRate(letterWeight) {
 }
 
 /**
- * CALCULATE DATA
- * This calculates and returns the rate, price and human-readable postType name.
- * @param letterWeight The package/letter letterWeight
- * @param postType   The package/letter postType
- * @returns      A data array
- * @throws       An error message if the letterWeight or postType is invalid
- * 
- * The returned data array includes the rate, price and postType name (in that order).
+ * This function calculates rates
  */
 function calculateRate(letterWeight, postType) {
     if (!(postType in mapTypeRate)) {
@@ -230,15 +205,7 @@ function calculateRate(letterWeight, postType) {
 }
 
 /**
- * RESPOND
- * This sends a simple response (typically for errors).
- * @param res The Express HTTP response object
- * @param obj A key-value map for the response
- * 
- * The key-value map includes:
- * @var status  The HTTP status code
- * @var headers A key-value map of HTTP headers
- * @var message The content message
+ * Ths function displays data on the webpage
  */
 function respond(res, obj) {
     res.status(obj.status);
