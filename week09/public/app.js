@@ -69,13 +69,14 @@ function selectStateChangedEvent() {
 function onWindowLoad() {
     divAjax = elementById('#div-ajax');
     divAjaxResponse = elementById('#div-ajax-response');
-    selOutput = elementById('#sel-output');
+    selOutput = elementById('#outputType');
     frmMain = elementById('#mainForm');
     btnSubmit = elementById('#btnSubmit');
 
     // call triggers once to initialize
     selectStateChangedEvent();
     formChangedEvent();
+    getCalculatedRate();
 }
 
 /**
@@ -96,34 +97,36 @@ function formChangedEvent() {
  * or an AJAX request.
  * If doing an AJAX request, then this function updates the "AJAX Response" div.
  */
- btnSubmit.addEventListener('click', () => {
-    switch (selOutput.value) {
-        case 'html':
-        case 'json':
-            if (validateInputs()) {
-                frmMain.submit();
-            }
-            break;
-        
-        case 'ajax':
-            if (validateInputs()) {
-                let data = new FormData(frmMain);
-                
-                for (let datum of data) {
-                    console.log(datum);
+const getCalculatedRate = () => {
+    btnSubmit.addEventListener('click', () => {
+        switch (selOutput.value) {
+            case 'html':
+            case 'json':
+                if (validateInputs()) {
+                    frmMain.submit();
                 }
+                break;
+            
+            case 'ajax':
+                if (validateInputs()) {
+                    let data = new FormData(frmMain);
+                    
+                    for (let datum of data) {
+                        console.log(datum);
+                    }
 
-                ajaxGet('/getRate', data)
-                .then((html) => {
-                    divAjaxResponse.innerHTML = html;
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-            }
-            break;
-    }
-});
+                    ajaxGet('/getRate', data)
+                    .then((html) => {
+                        divAjaxResponse.innerHTML = html;
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+                }
+                break;
+        }
+    });
+}
 
 // register the window load
 window.addEventListener('load', onWindowLoad);
